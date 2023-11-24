@@ -2,40 +2,37 @@
 #include <fmt/core.h>
 #include <utility>
 
-using namespace fmt;
-
-class C
+void foo(const std::string &)
 {
-public:
-    void foo() const &
-    {
-        print("foo() const &\n");
-    }
+    fmt::print("foo(const string &)\n");
+}
 
-    void foo() &&
-    {
-        print("foo() &&\n");
-    }
+void foo(std::string &)
+{
+    fmt::print("foo(string &)\n");
+}
 
-    void foo() &
-    {
-        print("foo() &\n");
-    }
+void foo(std::string &&)
+{
+    fmt::print("foo(string &&)\n");
+}
 
-    void foo() const &&
-    {
-        print("foo() const &&\n");
-    }
-};
+template<typename T>
+void callFoo(T && arg)
+{
+    foo(std::forward<T>(arg));;
+}
 
 int main()
 {
-    C x;
-    x.foo();
-    C{}.foo();
-    std::move(x).foo();
+    std::string v = "hello";
+    const std::string c = "world";
 
-    const C cx;
-    cx.foo();
-    std::move(cx).foo();
+    // 完美转发相关
+    callFoo(v);
+    callFoo(c);
+    callFoo(std::string{"demo.."});
+    callFoo(std::move(v));
+    std::string demo = std::move(v); // 转发
+    callFoo(std::move(c));
 }
