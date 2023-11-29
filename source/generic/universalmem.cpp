@@ -27,7 +27,7 @@ int main()
   insert(coll, std::string{"prvalue"});  // OK
   //...
   std::string str{"lvalue"};
-  insert(coll, str);              // ERROR: T::value_type&& is not a universal reference
+  // insert(coll, str);              // ERROR: T::value_type&& is not a universal reference
   insert(coll, std::move(str));   // OK
   //... 
 }

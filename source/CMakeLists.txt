@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 project(source)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 find_package(fmt CONFIG REQUIRED)
 add_executable(main.cpp main.cpp

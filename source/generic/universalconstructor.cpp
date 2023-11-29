@@ -1,42 +1,36 @@
-//********************************************************
-// The following code example is taken from the book
-//  C++ Move Semantics - The Complete Guide
-//  by Nicolai M. Josuttis (www.josuttis.com)
-//  http://www.cppmove.com
-//
-// The code is licensed under a
-//  Creative Commons Attribution 4.0 International License
-//  http://creativecommons.org/licenses/by/4.0/
-//********************************************************
-
-
 #include <iostream>
+#include <fmt/core.h> // use fmt 3rd_party
+#include <utility>
 
-class X {
- public:
-  X() = default;
+class X
+{
+public:
+    X() = default;
 
-  X(const X&) {
-    std::cout << "copy constructor\n";
-  }
-  X(X&&) {
-    std::cout << "move constructor\n";
-  }
+    X (const X &x)
+    {
+        fmt::print("Copy Constructor\n");
+    }
 
-  template<typename T>
-  X(T&&) {
-    std::cout << "universal constructor\n";
-  }  
+    X(X &&)
+    {
+        fmt::print("Move Constructor\n");
+    }
+
+    template<typename T>
+    X(T &&)
+    {
+        fmt::print("universal Constructor\n");
+    }
 };
 
 int main()
 {
-  X xv;
-  const X xc;
+    X xv;
+    const X xc;
 
-  X xcc{xc};             // OK: calls copy constructor
-  X xvc{xv};             // OOPS: calls universal constructor
-  X xvm{std::move(xv)};  // OK: calls move constructor
-  X xcm{std::move(xc)};  // OOPS: calls universal constructor
+    X xcc{xc};
+    X xvc{xv};
+    X Xvm{std::move(xv)};
+    X xcm{std::move(xc)};
 }
-
